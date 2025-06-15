@@ -2,13 +2,12 @@ package com.events.products.business.service;
 
 import com.events.products.business.exception.CategoryAlreadyExistsException;
 import com.events.products.business.exception.CategoryNotFoundException;
-import com.events.products.dto.CategoryDto;
-import com.events.products.entity.CategoryEntity;
+import com.events.products.dto.category.CategoryDto;
+import com.events.products.entity.category.CategoryEntity;
 import com.events.products.repository.CategoryRepository;
 import com.events.products.utils.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 
@@ -22,6 +21,12 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    private static void validateCategoryNameNotExists(CategoryDto dto, CategoryRepository repository) {
+        if (repository.findByName(dto.getName()) != null) {
+            throw new CategoryAlreadyExistsException("Category already exists with name: " + dto.getName());
+        }
+    }
+
     public CategoryDto addCategory(CategoryDto categoryDto) {
         validateAddCategoryDto(categoryDto);
         validateCategoryNameNotExists(categoryDto, categoryRepository);
@@ -29,7 +34,6 @@ public class CategoryService {
         CategoryEntity saved = categoryRepository.save(entity);
         return mapCategoryEntityToDto(saved);
     }
-
 
     public void deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {
@@ -71,15 +75,10 @@ public class CategoryService {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
     }
-    private  void validateAddCategoryDto(CategoryDto dto) {
+
+    private void validateAddCategoryDto(CategoryDto dto) {
         if (dto.getName() == null || dto.getName().isBlank()) {
             throw new IllegalArgumentException("Category name is required");
-        }
-    }
-
-    private static void validateCategoryNameNotExists(CategoryDto dto, CategoryRepository repository) {
-        if (repository.findByName(dto.getName()) != null) {
-            throw new CategoryAlreadyExistsException("Category already exists with name: " + dto.getName());
         }
     }
 }
