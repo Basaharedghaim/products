@@ -1,6 +1,5 @@
-package com.events.products.entity.category;
+package com.events.products.entity;
 
-import com.events.products.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

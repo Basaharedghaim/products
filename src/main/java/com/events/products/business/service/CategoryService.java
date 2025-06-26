@@ -2,8 +2,8 @@ package com.events.products.business.service;
 
 import com.events.products.business.exception.CategoryAlreadyExistsException;
 import com.events.products.business.exception.CategoryNotFoundException;
-import com.events.products.dto.category.CategoryDto;
-import com.events.products.entity.category.CategoryEntity;
+import com.events.products.dto.CategoryDto;
+import com.events.products.entity.CategoryEntity;
 import com.events.products.repository.CategoryRepository;
 import com.events.products.utils.Mapper;
 import lombok.RequiredArgsConstructor;

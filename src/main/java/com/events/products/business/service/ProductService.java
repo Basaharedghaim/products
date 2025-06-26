@@ -3,7 +3,7 @@ package com.events.products.business.service;
 import com.events.products.business.exception.ProductNotFoundException;
 import com.events.products.dto.ProductDto;
 import com.events.products.entity.ProductEntity;
-import com.events.products.entity.category.CategoryEntity;
+import com.events.products.entity.CategoryEntity;
 import com.events.products.repository.CategoryRepository;
 import com.events.products.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
