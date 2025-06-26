@@ -17,6 +17,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleCategoryNotFound(CategoryNotFoundException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleCategoryNotFound(CategoryAlreadyExistsException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.CONFLICT, request);
