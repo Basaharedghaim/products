@@ -37,7 +37,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/auth/**",
+                                "/auth/api/v1/**",
                                 "/user/api/v1/**",
                                 "/h2-console/**"  // ✅ Remove `/lahzat` prefix here
                         ).permitAll()

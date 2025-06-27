@@ -31,15 +31,5 @@ public class AuthService {
         }
     }
 
-    // For demo purpose, register a new user (optional)
-    public UserEntity register(String phoneNumber, String rawPassword) {
-        if (userRepository.findByPhoneNumber(phoneNumber).isPresent()) {
-            throw new RuntimeException("User already exists");
-        }
-        UserEntity user = new UserEntity();
-        user.setPhoneNumber(phoneNumber);
-        user.setPassword(passwordEncoder.encode(rawPassword));
-        return userRepository.save(user);
-    }
 }
 

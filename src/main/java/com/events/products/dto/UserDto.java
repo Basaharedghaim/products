@@ -19,7 +19,6 @@ public class UserDto {
     private String thirdName;
     private String lastName;
     private Integer points;
-    private String mobileNumber;
     private String email;
     private String profilePicturePath;
     private String phoneNumber;

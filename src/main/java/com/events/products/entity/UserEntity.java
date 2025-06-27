@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USER_INFO")
 @Builder
 @Data
 @AllArgsConstructor
@@ -40,9 +40,6 @@ public class UserEntity {
 
     @Column(name = "POINTS")
     private Integer points;
-
-    @Column(name = "MOBILE_NUMBER")
-    private String mobileNumber;
 
     @Column(name = "EMAIL")
     private String email;

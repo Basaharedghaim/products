@@ -26,10 +26,5 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponse(token));
     }
 
-    // Optional: Register endpoint for testing
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginRequest request) {
-        authService.register(request.getPhoneNumber(), request.getPassword());
-        return ResponseEntity.ok("User registered");
-    }
+
 }
