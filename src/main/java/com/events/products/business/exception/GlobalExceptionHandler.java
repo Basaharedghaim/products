@@ -27,6 +27,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request);
     }
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPassword(InvalidPasswordException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request);
+    }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUSerNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex, HttpServletRequest request) {
