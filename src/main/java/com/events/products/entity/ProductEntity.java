@@ -38,5 +38,6 @@ public class ProductEntity {
             inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
     )
     private Set<CategoryEntity> categories = new HashSet<>();
+    private Set<StoreEntity> stores = new HashSet<>();
 }
 
