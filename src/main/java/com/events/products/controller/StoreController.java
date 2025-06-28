@@ -47,4 +47,5 @@ public class StoreController {
     public ResponseEntity<StoreDto> getStoreByName(@PathVariable String name) {
         return ResponseEntity.ok(storeService.getStoreByName(name));
     }
+
 }
