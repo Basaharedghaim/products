@@ -1,6 +1,5 @@
 package com.events.products.business.service;
 
-import com.events.products.dto.ProductDto;
 import com.events.products.dto.UserDto;
 import com.events.products.entity.UserEntity;
 import com.events.products.repository.UserRepository;
