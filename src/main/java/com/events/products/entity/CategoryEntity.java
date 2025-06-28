@@ -30,6 +30,6 @@ public class CategoryEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToMany(mappedBy = "PRODUCTS_ID")
+    @ManyToMany(mappedBy = "categories")
     private Set<ProductEntity> products = new HashSet<>();
 }
