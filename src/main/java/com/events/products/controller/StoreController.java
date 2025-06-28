@@ -43,9 +43,9 @@ public class StoreController {
         return ResponseEntity.ok(storeService.getStoreById(id));
     }
 
-    @GetMapping("/by-name/{name}")
-    public ResponseEntity<StoreDto> getStoreByName(@PathVariable String name) {
-        return ResponseEntity.ok(storeService.getStoreByName(name));
+    @GetMapping("/by-name")
+    public ResponseEntity<StoreDto> getStoreByName(@RequestParam String name) {
+        return ResponseEntity.ok(storeService.getStoreDtoByName(name));
     }
 
 }

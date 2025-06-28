@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-
 @Service
 @RequiredArgsConstructor
 public class StoreService {
@@ -20,38 +19,24 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final ObjectMapper objectMapper;
 
-    private static void validateStoreNameNotExists(StoreDto dto, StoreRepository repository) {
-        if (repository.findByName(dto.getName()) != null) {
-            throw new StoreAlreadyExistsException("Store already exists with name: " + dto.getName());
-        }
-    }
-
     public StoreDto addStore(StoreDto storeDto) {
         validateAddStoreDto(storeDto);
-        validateStoreNameNotExists(storeDto, storeRepository);
-        StoreEntity entity = objectMapper.convertValue(storeDto, StoreEntity.class);
-        StoreEntity saved = storeRepository.save(entity);
+        validateStoreNameNotExists(storeDto);
+        StoreEntity saved = storeRepository.save(convertDtoToEntity(storeDto));
         return convertEntityToDto(saved);
     }
 
-        public void deleteStore(Long id) {
-        if (!storeRepository.existsById(id)) {
-            throw new StoreNotFoundException("Store not found with id: " + id);
-        }
+    public void deleteStore(Long id) {
+        validateIfIdExist(id);
         storeRepository.deleteById(id);
     }
 
     public StoreDto updateStore(Long id, StoreDto storeDto) {
-        StoreEntity existing = storeRepository.findById(id)
-                .orElseThrow(() -> new StoreNotFoundException("Store not found with id: " + id));
-
-        updateEntityFromDto(existing, storeDto);
-        StoreEntity updated = storeRepository.save(existing);
+        validateIfIdExist(id);
+        validateStoreNameNotExists(storeDto);
+        StoreEntity store = getStoreEntity(id);
+        StoreEntity updated = storeRepository.save(store);
         return convertEntityToDto(updated);
-    }
-
-    private StoreDto convertEntityToDto(StoreEntity updated) {
-        return objectMapper.convertValue(updated, StoreDto.class);
     }
 
     public List<StoreDto> getStores() {
@@ -61,12 +46,11 @@ public class StoreService {
     }
 
     public StoreDto getStoreById(Long id) {
-        StoreEntity store = storeRepository.findById(id)
-                .orElseThrow(() -> new StoreNotFoundException("Store not found with id: " + id));
+        StoreEntity store = getStoreEntity(id);
         return convertEntityToDto(store);
     }
 
-    public StoreDto getStoreByName(String name) {
+    public StoreDto getStoreDtoByName(String name) {
         StoreEntity store = storeRepository.findByName(name);
         if (store == null) {
             throw new StoreNotFoundException("Store not found with name: " + name);
@@ -74,14 +58,36 @@ public class StoreService {
         return convertEntityToDto(store);
     }
 
-    private void updateEntityFromDto(StoreEntity entity, StoreDto dto) {
-        entity.setName(dto.getName());
-        entity.setAddress(dto.getAddress());
-    }
-
     private void validateAddStoreDto(StoreDto dto) {
         if (dto.getName() == null || dto.getName().isBlank()) {
-            throw new IllegalArgumentException("Store name is required");
+            throw new StoreNotFoundException("Store name is required");
         }
+
+    }
+
+    private void validateStoreNameNotExists(StoreDto dto) {
+        if (storeRepository.findByName(dto.getName()) != null) {
+            throw new StoreAlreadyExistsException("Store already exists with name: " + dto.getName());
+        }
+    }
+
+    private void validateIfIdExist(Long id) {
+        if (!storeRepository.existsById(id)) {
+            throw new StoreNotFoundException("Store not found with id: " + id);
+        }
+    }
+
+    private StoreEntity getStoreEntity(Long id) {
+        return storeRepository.findById(id)
+                .orElseThrow(() -> new StoreNotFoundException("Store not found with id: " + id));
+
+    }
+
+    private StoreDto convertEntityToDto(StoreEntity updated) {
+        return objectMapper.convertValue(updated, StoreDto.class);
+    }
+
+    private StoreEntity convertDtoToEntity(StoreDto storeDto) {
+        return objectMapper.convertValue(storeDto, StoreEntity.class);
     }
 }
