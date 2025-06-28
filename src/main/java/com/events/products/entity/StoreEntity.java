@@ -28,6 +28,6 @@ public class StoreEntity {
     @Column(name = "ADDRESS")
     private String address;
 
-    @ManyToMany(mappedBy = "stores")
+    @ManyToMany(mappedBy = "PRODUCTS")
     private Set<ProductEntity> products = new HashSet<>();
 }

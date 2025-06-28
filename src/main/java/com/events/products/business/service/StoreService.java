@@ -6,19 +6,20 @@ import com.events.products.dto.StoreDto;
 import com.events.products.entity.StoreEntity;
 import com.events.products.repository.StoreRepository;
 import com.events.products.utils.Mapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.events.products.utils.Mapper.mapStoreDtoToEntity;
-import static com.events.products.utils.Mapper.mapStoreEntityToDto;
+
 
 @Service
 @RequiredArgsConstructor
 public class StoreService {
 
     private final StoreRepository storeRepository;
+    private final ObjectMapper objectMapper;
 
     private static void validateStoreNameNotExists(StoreDto dto, StoreRepository repository) {
         if (repository.findByName(dto.getName()) != null) {
@@ -27,14 +28,14 @@ public class StoreService {
     }
 
     public StoreDto addStore(StoreDto storeDto) {
-        validateAddStoreDto(storeDto);
+//        validateAddStoreDto(storeDto);
         validateStoreNameNotExists(storeDto, storeRepository);
-        StoreEntity entity = mapStoreDtoToEntity(storeDto);
+        StoreEntity entity = objectMapper.convertValue(storeDto, StoreEntity.class);
         StoreEntity saved = storeRepository.save(entity);
-        return mapStoreEntityToDto(saved);
+        return convertEntityToDto(saved);
     }
 
-    public void deleteStore(Long id) {
+        public void deleteStore(Long id) {
         if (!storeRepository.existsById(id)) {
             throw new StoreNotFoundException("Store not found with id: " + id);
         }
@@ -47,19 +48,23 @@ public class StoreService {
 
         updateEntityFromDto(existing, storeDto);
         StoreEntity updated = storeRepository.save(existing);
-        return mapStoreEntityToDto(updated);
+        return convertEntityToDto(updated);
+    }
+
+    private StoreDto convertEntityToDto(StoreEntity updated) {
+        return objectMapper.convertValue(updated, StoreDto.class);
     }
 
     public List<StoreDto> getStores() {
         return storeRepository.findAll().stream()
-                .map(Mapper::mapStoreEntityToDto)
+                .map(this::convertEntityToDto)
                 .toList();
     }
 
     public StoreDto getStoreById(Long id) {
         StoreEntity store = storeRepository.findById(id)
                 .orElseThrow(() -> new StoreNotFoundException("Store not found with id: " + id));
-        return mapStoreEntityToDto(store);
+        return convertEntityToDto(store);
     }
 
     public StoreDto getStoreByName(String name) {
@@ -67,7 +72,7 @@ public class StoreService {
         if (store == null) {
             throw new StoreNotFoundException("Store not found with name: " + name);
         }
-        return mapStoreEntityToDto(store);
+        return convertEntityToDto(store);
     }
 
     private void updateEntityFromDto(StoreEntity entity, StoreDto dto) {
