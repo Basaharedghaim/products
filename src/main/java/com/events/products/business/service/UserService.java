@@ -1,5 +1,6 @@
 package com.events.products.business.service;
 
+import com.events.products.business.exception.UserNotFoundException;
 import com.events.products.dto.UserDto;
 import com.events.products.entity.UserEntity;
 import com.events.products.repository.UserRepository;
@@ -28,13 +29,13 @@ public class UserService {
 
     public UserDto getUser(Long id) {
         UserEntity entity = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         return objectMapper.convertValue(entity, UserDto.class);
     }
 
     public UserDto patchUser(Long id, UserDto userDto) throws Exception {
         UserEntity existingEntity = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         JsonNode existingNode = objectMapper.valueToTree(existingEntity);
         JsonNode updateNode = objectMapper.valueToTree(userDto);
@@ -52,7 +53,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found");
+                throw new UserNotFoundException("User not found");
         }
         userRepository.deleteById(id);
     }
