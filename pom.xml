@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.events.products</groupId>
-	<artifactId>lahzat</artifactId>
+	<artifactId>lahzati</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>lahzat</name>
+	<name>lahzati</name>
 	<description> project for Event planning </description>
 	<url/>
 	<licenses>
