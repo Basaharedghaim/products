@@ -31,6 +31,7 @@ public class ProductEntity {
     @Column(name = "PRICE")
     private float price;
 
+
     @ManyToMany
     @JoinTable(
             name = "PRODUCT_CATEGORY",
