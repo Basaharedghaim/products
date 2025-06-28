@@ -1,7 +1,7 @@
 package com.events.products.controller;
 
 import com.events.products.business.service.StoreService;
-import com.events.products.dto.StoreDto;
+import com.events.products.data.dto.StoreDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class StoreController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
         storeService.deleteStore(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update/{id}")

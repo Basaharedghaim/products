@@ -2,10 +2,9 @@ package com.events.products.business.service;
 
 import com.events.products.business.exception.StoreAlreadyExistsException;
 import com.events.products.business.exception.StoreNotFoundException;
-import com.events.products.dto.StoreDto;
-import com.events.products.entity.StoreEntity;
-import com.events.products.repository.StoreRepository;
-import com.events.products.utils.Mapper;
+import com.events.products.data.dto.StoreDto;
+import com.events.products.data.entity.StoreEntity;
+import com.events.products.data.repository.StoreRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

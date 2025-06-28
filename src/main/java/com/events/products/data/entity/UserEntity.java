@@ -1,5 +1,6 @@
-package com.events.products.entity;
+package com.events.products.data.entity;
 
+import com.events.products.data.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +56,9 @@ public class UserEntity {
 
     @Column(name = "CREATED_ON")
     private LocalDate createdOn;
+
+    @Column(name = "ROLE")
+    private RoleEnum role;
 
 
 }

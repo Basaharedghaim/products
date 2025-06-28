@@ -1,7 +1,7 @@
 package com.events.products.configuration;
 
 import com.events.products.business.authentication.JwtAuthenticationFilter;
-import com.events.products.repository.UserRepository;
+import com.events.products.data.repository.UserRepository;
 import com.events.products.utils.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +15,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity  // optional: enables @PreAuthorize etc.
-public class SecurityConfig {
+public class SecurityConfiguration {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
-    public SecurityConfig(JwtUtil jwtUtil, UserRepository userRepository) {
+    public SecurityConfiguration(JwtUtil jwtUtil, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
     }

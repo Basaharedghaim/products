@@ -1,5 +1,6 @@
-package com.events.products.dto;
+package com.events.products.data.dto;
 
+import com.events.products.data.enums.RoleEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -61,4 +62,6 @@ public class UserDto {
     @Pattern(regexp = "^(?=.*\\b(city|state|street)\\b).*$",
             message = "Address must include city, state, and street name")
     private String address;
+
+    private RoleEnum role;
 }

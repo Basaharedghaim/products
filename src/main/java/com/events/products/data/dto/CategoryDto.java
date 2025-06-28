@@ -1,4 +1,4 @@
-package com.events.products.dto;
+package com.events.products.data.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

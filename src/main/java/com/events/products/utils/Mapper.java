@@ -1,7 +1,7 @@
 package com.events.products.utils;
 
-import com.events.products.dto.CategoryDto;
-import com.events.products.entity.CategoryEntity;
+import com.events.products.data.dto.CategoryDto;
+import com.events.products.data.entity.CategoryEntity;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

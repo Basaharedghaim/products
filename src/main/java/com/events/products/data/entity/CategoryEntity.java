@@ -1,4 +1,4 @@
-package com.events.products.entity;
+package com.events.products.data.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "STORE")
+@Table(name = "CATEGORY")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StoreEntity {
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,9 @@ public class StoreEntity {
 
     @Column(name = "ADDRESS")
     private String address;
+    @Column(name = "DESCRIPTION")
+    private String description;
 
-    @ManyToMany(mappedBy = "stores")
+    @ManyToMany(mappedBy = "categories")
     private Set<ProductEntity> products = new HashSet<>();
 }

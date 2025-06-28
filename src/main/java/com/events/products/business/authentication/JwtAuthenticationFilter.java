@@ -1,6 +1,6 @@
 package com.events.products.business.authentication;
 
-import com.events.products.repository.UserRepository;
+import com.events.products.data.repository.UserRepository;
 import com.events.products.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

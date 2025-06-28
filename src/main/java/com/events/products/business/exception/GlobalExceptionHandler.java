@@ -1,6 +1,6 @@
 package com.events.products.business.exception;
 
-import com.events.products.dto.error.ErrorResponse;
+import com.events.products.data.dto.error.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

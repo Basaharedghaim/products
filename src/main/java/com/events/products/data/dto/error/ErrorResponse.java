@@ -1,4 +1,4 @@
-package com.events.products.dto.error;
+package com.events.products.data.dto.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

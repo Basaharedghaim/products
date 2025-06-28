@@ -1,4 +1,4 @@
-package com.events.products.dto.login;
+package com.events.products.data.dto.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

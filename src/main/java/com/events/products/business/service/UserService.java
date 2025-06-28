@@ -1,9 +1,9 @@
 package com.events.products.business.service;
 
 import com.events.products.business.exception.UserNotFoundException;
-import com.events.products.dto.UserDto;
-import com.events.products.entity.UserEntity;
-import com.events.products.repository.UserRepository;
+import com.events.products.data.dto.UserDto;
+import com.events.products.data.entity.UserEntity;
+import com.events.products.data.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

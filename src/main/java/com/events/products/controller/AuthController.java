@@ -2,11 +2,9 @@ package com.events.products.controller;
 
 
 import com.events.products.business.service.AuthService;
-import com.events.products.dto.login.LoginRequest;
-import com.events.products.dto.login.LoginResponse;
-import com.events.products.entity.UserEntity;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpRequest;
+import com.events.products.data.dto.login.LoginRequest;
+import com.events.products.data.dto.login.LoginResponse;
+import com.events.products.data.entity.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

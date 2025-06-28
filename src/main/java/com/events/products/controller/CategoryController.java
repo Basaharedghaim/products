@@ -1,7 +1,7 @@
 package com.events.products.controller;
 
 import com.events.products.business.service.CategoryService;
-import com.events.products.dto.CategoryDto;
+import com.events.products.data.dto.CategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

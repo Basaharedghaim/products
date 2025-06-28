@@ -2,26 +2,22 @@ package com.events.products.business.service;
 
 import com.events.products.business.exception.InvalidPasswordException;
 import com.events.products.business.exception.UserNotFoundException;
-import com.events.products.entity.UserEntity;
-import com.events.products.repository.UserRepository;
+import com.events.products.data.entity.UserEntity;
+import com.events.products.data.repository.UserRepository;
 import com.events.products.utils.JwtUtil;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-        this.passwordEncoder = new BCryptPasswordEncoder();
-    }
+
 
     public String login(String phoneNumber, String rawPassword) {
         UserEntity user = userRepository.findByPhoneNumber(phoneNumber)

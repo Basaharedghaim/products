@@ -2,9 +2,9 @@ package com.events.products.business.service;
 
 import com.events.products.business.exception.CategoryAlreadyExistsException;
 import com.events.products.business.exception.CategoryNotFoundException;
-import com.events.products.dto.CategoryDto;
-import com.events.products.entity.CategoryEntity;
-import com.events.products.repository.CategoryRepository;
+import com.events.products.data.dto.CategoryDto;
+import com.events.products.data.entity.CategoryEntity;
+import com.events.products.data.repository.CategoryRepository;
 import com.events.products.utils.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
