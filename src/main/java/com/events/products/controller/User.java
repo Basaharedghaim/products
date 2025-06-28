@@ -1,7 +1,6 @@
 package com.events.products.controller;
 
 import com.events.products.business.service.UserService;
-import com.events.products.dto.ProductDto;
 import com.events.products.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

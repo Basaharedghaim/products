@@ -49,4 +49,12 @@ public class UserEntity {
 
     @Column(name = "PROFILE_PICTURE_PATH")
     private String profilePicturePath;
+
+    @Column(name = "UPDATED_ON")
+    private LocalDate updatedOn;
+
+    @Column(name = "CREATED_ON")
+    private LocalDate createdOn;
+
+
 }
