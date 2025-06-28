@@ -1,40 +1,51 @@
 package com.events.products.business.service;
 
 import com.events.products.dto.PackagesDto;
-import com.events.products.dto.ProductDto;
+import com.events.products.entity.PackagesEntity;
 import com.events.products.repository.PackagesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class PackagesService {
     private final PackagesRepository packagesRepository;
-    public List<PackagesDto> getProducts() {
-        return null;
+
+
+    public PackagesDto addPackages(PackagesDto dto) {
+        PackagesEntity entity = PackagesEntity.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .build();
+        return mapToDto(packagesRepository.save(entity));
     }
 
     public void deletePackage(Long id) {
+        packagesRepository.deleteById(id);
     }
 
-    public PackagesDto updatePackage(Long id, PackagesDto productDto) {
-        return null;
-
+    public PackagesDto updatePackage(Long id, PackagesDto dto) {
+        PackagesEntity entity = packagesRepository.findById(id).orElseThrow();
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        return mapToDto(packagesRepository.save(entity));
     }
 
     public List<PackagesDto> getPackages() {
-        return null;
-
+        return packagesRepository.findAll().stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
     public PackagesDto getPackageById(Long id) {
-        return null;
-
+        return packagesRepository.findById(id).map(this::mapToDto).orElse(null);
     }
 
-    public PackagesDto addPackages(PackagesDto packagesDto) {
-        return null;
-
+    private PackagesDto mapToDto(PackagesEntity entity) {
+        return PackagesDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .build();
     }
 }
