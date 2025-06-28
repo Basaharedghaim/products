@@ -27,7 +27,7 @@ public class StoreService {
     }
 
     public StoreDto addStore(StoreDto storeDto) {
-//        validateAddStoreDto(storeDto);
+        validateAddStoreDto(storeDto);
         validateStoreNameNotExists(storeDto, storeRepository);
         StoreEntity entity = objectMapper.convertValue(storeDto, StoreEntity.class);
         StoreEntity saved = storeRepository.save(entity);

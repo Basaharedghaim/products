@@ -35,6 +35,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUSerNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
+    @ExceptionHandler(StoreAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleStoreAlreadyExistsException(StoreAlreadyExistsException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.CONFLICT, request);
+    }
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleStoreNotFoundException(StoreNotFoundException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex, HttpServletRequest request) {
