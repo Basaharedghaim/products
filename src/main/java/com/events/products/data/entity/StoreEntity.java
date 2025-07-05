@@ -1,10 +1,8 @@
 package com.events.products.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +10,8 @@ import java.util.Set;
 @Entity
 @Table(name = "STORE")
 @Builder
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoreEntity {
@@ -21,17 +20,18 @@ public class StoreEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "ADDRESS")
     private String address;
-
-    @ManyToMany(mappedBy = "stores")
-    private Set<ProductEntity> products = new HashSet<>();
-    //TODO add categories
-    private String mainImage;
+    @Column(name = "STORE_IMAGE_PATH")
+    private String storeImagePath;
+    @Column(name = "DESCRIPTION")
     private String description;
-    private String stars;
+    @Column(name = "STARS")
+    private double stars;
+    @ManyToMany(mappedBy = "stores")
+    @JsonIgnore
+    private Set<CategoryEntity> categories = new HashSet<>();
+
 }
