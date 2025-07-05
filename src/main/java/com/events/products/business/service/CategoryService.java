@@ -21,12 +21,6 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    private static void validateCategoryNameNotExists(CategoryDto dto, CategoryRepository repository) {
-        if (repository.findByName(dto.getName()) != null) {
-            throw new CategoryAlreadyExistsException("Category already exists with name: " + dto.getName());
-        }
-    }
-
     public CategoryDto addCategory(CategoryDto categoryDto) {
         validateAddCategoryDto(categoryDto);
         validateCategoryNameNotExists(categoryDto, categoryRepository);
@@ -79,6 +73,11 @@ public class CategoryService {
     private void validateAddCategoryDto(CategoryDto dto) {
         if (dto.getName() == null || dto.getName().isBlank()) {
             throw new IllegalArgumentException("Category name is required");
+        }
+    }
+    private static void validateCategoryNameNotExists(CategoryDto dto, CategoryRepository repository) {
+        if (repository.findByName(dto.getName()) != null) {
+            throw new CategoryAlreadyExistsException("Category already exists with name: " + dto.getName());
         }
     }
 }
