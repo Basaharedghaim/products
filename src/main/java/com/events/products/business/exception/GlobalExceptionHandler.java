@@ -43,6 +43,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleStoreNotFoundException(StoreNotFoundException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
+    @ExceptionHandler(SubCategoryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSubCategoryNotFoundException(SubCategoryNotFoundException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
+    }
+    @ExceptionHandler(SubCategoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleSubCategoryAlreadyExistsException(SubCategoryAlreadyExistsException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex, HttpServletRequest request) {
