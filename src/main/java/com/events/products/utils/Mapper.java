@@ -2,6 +2,12 @@ package com.events.products.utils;
 
 import com.events.products.data.dto.CategoryDto;
 import com.events.products.data.entity.CategoryEntity;
+import com.events.products.data.dto.CategoryDto;
+import com.events.products.data.dto.SubCategoryDto;
+import com.events.products.data.entity.CategoryEntity;
+import com.events.products.data.entity.SubCategoryEntity;
+import lombok.extern.slf4j.Slf4j;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,4 +31,20 @@ public class Mapper {
                 .description(categoryEntity.getDescription())
                 .build();
     }
+    public static SubCategoryDto mapSubCategoryEntityToDto(SubCategoryEntity entity) {
+        return SubCategoryDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .build();
+    }
+
+    public static SubCategoryEntity mapSubCategoryDtoToEntity(SubCategoryDto dto) {
+        return SubCategoryEntity.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .build();
+    }
+
 }
