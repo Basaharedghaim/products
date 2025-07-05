@@ -22,6 +22,7 @@ public class StoreService {
     public StoreDto addStore(StoreDto storeDto) {
         validateAddStoreDto(storeDto);
         validateStoreNameNotExists(storeDto);
+
         StoreEntity saved = storeRepository.save(convertDtoToEntity(storeDto));
         return convertEntityToDto(saved);
     }
@@ -35,6 +36,7 @@ public class StoreService {
         validateIfIdExist(id);
         validateStoreNameNotExists(storeDto);
         StoreEntity store = getStoreEntity(id);
+        store.setName(storeDto.getName());
         StoreEntity updated = storeRepository.save(store);
         return convertEntityToDto(updated);
     }

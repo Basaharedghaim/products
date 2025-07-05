@@ -1,5 +1,6 @@
 package com.events.products.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,15 +22,18 @@ public class CategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "ADDRESS")
     private String address;
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToMany(mappedBy = "categories")
-    private Set<ProductEntity> products = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "CATEGORY_STORE",
+            joinColumns = @JoinColumn(name = "CATEGORY_ID"),
+            inverseJoinColumns = @JoinColumn(name = "STORE_ID")
+    )
+    private Set<StoreEntity> stores = new HashSet<>();
 }

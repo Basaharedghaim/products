@@ -4,8 +4,11 @@ import com.events.products.business.exception.CategoryAlreadyExistsException;
 import com.events.products.business.exception.CategoryNotFoundException;
 import com.events.products.data.dto.CategoryDto;
 import com.events.products.data.entity.CategoryEntity;
+import com.events.products.data.entity.StoreEntity;
 import com.events.products.data.repository.CategoryRepository;
+import com.events.products.data.repository.StoreRepository;
 import com.events.products.utils.Mapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ import static com.events.products.utils.Mapper.mapCategoryEntityToDto;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final StoreRepository storeRepository;
+    private final ObjectMapper objectMapper;
 
     public CategoryDto addCategory(CategoryDto categoryDto) {
         validateAddCategoryDto(categoryDto);
@@ -47,8 +52,11 @@ public class CategoryService {
 
     public List<CategoryDto> getCategories() {
         return categoryRepository.findAll().stream()
-                .map(Mapper::mapCategoryEntityToDto)
+                .map(this::mapCategoryEntityToDto)
                 .toList();
+    }
+    private CategoryDto mapCategoryEntityToDto(CategoryEntity categoryEntity){
+        return objectMapper.convertValue(categoryEntity,CategoryDto.class);
     }
 
     public CategoryDto getCategoryById(Long id) {
@@ -80,6 +88,31 @@ public class CategoryService {
             throw new CategoryAlreadyExistsException("Category already exists with name: " + dto.getName());
         }
     }
+
+    public CategoryDto addStoreToCategory(Long categoryId, Long storeId) {
+        // 1. Fetch the category
+        CategoryEntity category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        // 2. Fetch the store
+        StoreEntity store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException("Store not found"));
+
+        // 3. Add the store to the category's set
+        category.getStores().add(store);
+
+        // 4. Save the updated category
+        CategoryEntity updatedCategory = categoryRepository.save(category);
+
+        // 5. Convert to DTO and return
+        return CategoryDto.builder()
+                .id(updatedCategory.getId())
+                .name(updatedCategory.getName())
+                .description(updatedCategory.getDescription())
+                .stores(updatedCategory.getStores())
+                .build();
+    }
+
 }
 
 
