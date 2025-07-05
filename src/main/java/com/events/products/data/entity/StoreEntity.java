@@ -30,4 +30,8 @@ public class StoreEntity {
 
     @ManyToMany(mappedBy = "stores")
     private Set<ProductEntity> products = new HashSet<>();
+    //TODO add categories
+    private String mainImage;
+    private String description;
+    private String stars;
 }

@@ -30,6 +30,11 @@ public class ProductEntity {
 
     @Column(name = "PRICE")
     private float price;
+    private String image;
+    private Integer stars;
+    //TODO Later
+    private String addOns;
+
 
 
     @ManyToMany
