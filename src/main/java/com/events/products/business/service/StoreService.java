@@ -2,9 +2,12 @@ package com.events.products.business.service;
 
 import com.events.products.business.exception.StoreAlreadyExistsException;
 import com.events.products.business.exception.StoreNotFoundException;
+import com.events.products.business.exception.SubCategoryNotFoundException;
 import com.events.products.data.dto.StoreDto;
 import com.events.products.data.entity.StoreEntity;
+import com.events.products.data.entity.SubCategoryEntity;
 import com.events.products.data.repository.StoreRepository;
+import com.events.products.data.repository.SubCategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import java.util.List;
 public class StoreService {
 
     private final StoreRepository storeRepository;
+    private final SubCategoryRepository subCategoryRepository;
     private final ObjectMapper objectMapper;
 
     public StoreDto addStore(StoreDto storeDto) {
@@ -58,6 +62,16 @@ public class StoreService {
             throw new StoreNotFoundException("Store not found with name: " + name);
         }
         return convertEntityToDto(store);
+    }
+    public void addSubCategoryToStore(Long storeId, Long subCategoryId) {
+        StoreEntity store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreNotFoundException("Store Not Found"));
+
+        SubCategoryEntity subCategory = subCategoryRepository.findById(subCategoryId)
+                .orElseThrow(() -> new SubCategoryNotFoundException("Sub Category Not Found"));
+
+        store.getSubCategories().add(subCategory);
+        storeRepository.save(store);
     }
 
     private void validateAddStoreDto(StoreDto dto) {

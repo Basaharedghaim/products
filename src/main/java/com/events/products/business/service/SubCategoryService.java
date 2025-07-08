@@ -6,6 +6,7 @@ import com.events.products.data.dto.SubCategoryDto;
 import com.events.products.data.entity.SubCategoryEntity;
 import com.events.products.data.repository.SubCategoryRepository;
 import com.events.products.utils.Mapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,13 @@ import java.util.stream.Collectors;
 public class SubCategoryService {
 
     private final SubCategoryRepository repository;
+    private final ObjectMapper objectMapper;
 
     public SubCategoryDto addSubCategory(SubCategoryDto dto) {
         validateSubCategoryNameDoesntExist(dto);
         SubCategoryEntity entity = Mapper.mapSubCategoryDtoToEntity(dto);
         SubCategoryEntity saved = repository.save(entity);
-        return Mapper.mapSubCategoryEntityToDto(saved);
+        return mapSubCategoryEntityToDto(saved);
     }
 
     public SubCategoryDto updateSubCategory(Long id, SubCategoryDto dto) {
@@ -33,19 +35,22 @@ public class SubCategoryService {
         entity.setDescription(dto.getDescription());
 
         SubCategoryEntity updated = repository.save(entity);
-        return Mapper.mapSubCategoryEntityToDto(updated);
+        return mapSubCategoryEntityToDto(updated);
     }
 
     public List<SubCategoryDto> getAll() {
         return repository.findAll().stream()
-                .map(Mapper::mapSubCategoryEntityToDto)
+                .map(this::mapSubCategoryEntityToDto)
                 .collect(Collectors.toList());
     }
 
     public SubCategoryDto getById(Long id) {
         SubCategoryEntity entity = repository.findById(id)
                 .orElseThrow(() -> new SubCategoryNotFoundException("SubCategory not found with id: " + id));
-        return Mapper.mapSubCategoryEntityToDto(entity);
+        return mapSubCategoryEntityToDto(entity);
+    }
+    public SubCategoryDto mapSubCategoryEntityToDto(SubCategoryEntity subCategoryEntity){
+        return objectMapper.convertValue(subCategoryEntity,SubCategoryDto.class);
     }
 
     public void delete(Long id) {

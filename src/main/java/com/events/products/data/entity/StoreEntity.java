@@ -33,5 +33,12 @@ public class StoreEntity {
     @ManyToMany(mappedBy = "stores")
     @JsonIgnore
     private Set<CategoryEntity> categories = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "STORE_SUB_CATEGORY",
+            joinColumns = @JoinColumn(name = "STORE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SUB_CATEGORY_ID")
+    )
+    private Set<SubCategoryEntity> subCategories = new HashSet<>();
 
 }

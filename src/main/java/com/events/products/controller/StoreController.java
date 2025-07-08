@@ -23,9 +23,9 @@ public class StoreController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
+    public ResponseEntity<String> deleteStore(@PathVariable Long id) {
         storeService.deleteStore(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Store Deleted successfully");
     }
 
     @PutMapping("/update/{id}")
@@ -47,5 +47,15 @@ public class StoreController {
     public ResponseEntity<StoreDto> getStoreByName(@RequestParam String name) {
         return ResponseEntity.ok(storeService.getStoreDtoByName(name));
     }
+
+    @PostMapping("/{storeId}/subcategories/{subCategoryId}")
+    public ResponseEntity<String> addSubCategoryToStore(
+            @PathVariable Long storeId,
+            @PathVariable Long subCategoryId) {
+
+        storeService.addSubCategoryToStore(storeId, subCategoryId);
+        return ResponseEntity.ok("SubCategory added to Store successfully");
+    }
+
 
 }

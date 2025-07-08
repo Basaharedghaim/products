@@ -1,6 +1,7 @@
 package com.events.products.data.dto;
 
 import com.events.products.data.entity.CategoryEntity;
+import com.events.products.data.entity.SubCategoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class StoreDto {
     private double stars;
     private String storeImagePath;
     private String description;
-//    private Set<CategoryEntity> categories = new HashSet<>();
+    private Set<CategoryEntity> categories;
+    private Set<SubCategoryEntity> subCategories ;
+
 }
 
