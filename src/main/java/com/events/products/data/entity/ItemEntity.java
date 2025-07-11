@@ -1,6 +1,5 @@
 package com.events.products.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,23 +11,36 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "SUB_CATEGORY")
+@Table(name = "ITEM")
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class SubCategoryEntity {
+public class ItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME")
     private String name;
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "PRICE")
+    private float price;
+
+    @Column(name = "ITEM_IMAGE_PATH")
+    private String itemImagePath;
+
+    @Column(name = "STARS")
+    private Integer stars;
+
+    //TODO Later
+    @Column(name = "ADD_ONS")
+    private String addOns;
 
     @Column(name = "UPDATED_ON")
     private LocalDateTime updatedOn;
@@ -42,11 +54,13 @@ public class SubCategoryEntity {
     @Column(name = "CREATED_BY")
     private String createdBy;
 
-    @ManyToMany(mappedBy = "subCategories")
-    @JsonIgnore
-    private Set<StoreEntity> stores = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "ITEM_SUB_CATEGORY",
+            joinColumns = @JoinColumn(name = "ITEM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SUB_CATEGORY_ID")
+    )
+    private Set<SubCategoryEntity> subCategoriesForItems = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subCategoriesForItems")
-    @JsonIgnore
-    private Set<ItemEntity> items = new HashSet<>();
 }
+

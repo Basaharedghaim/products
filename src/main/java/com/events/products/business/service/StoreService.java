@@ -63,6 +63,7 @@ public class StoreService {
         }
         return convertEntityToDto(store);
     }
+
     public void addSubCategoryToStore(Long storeId, Long subCategoryId) {
         StoreEntity store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreNotFoundException("Store Not Found"));

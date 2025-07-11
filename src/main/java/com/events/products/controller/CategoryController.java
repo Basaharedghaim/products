@@ -46,9 +46,10 @@ public class CategoryController {
     public ResponseEntity<CategoryDto> getCategoryByName(@PathVariable String name) {
         return ResponseEntity.ok(categoryService.getCategoryByName(name));
     }
+
     @PostMapping("/add-store/{category-id}/{store-id}")
     public ResponseEntity<CategoryDto> addStore(@PathVariable(name = "category-id") Long categoryId
-            ,@PathVariable(name = "store-id") Long storeId) {
-        return ResponseEntity.ok(categoryService.addStoreToCategory(categoryId,storeId));
+            , @PathVariable(name = "store-id") Long storeId) {
+        return ResponseEntity.ok(categoryService.addStoreToCategory(categoryId, storeId));
     }
 }

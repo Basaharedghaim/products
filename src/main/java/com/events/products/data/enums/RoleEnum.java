@@ -1,5 +1,5 @@
 package com.events.products.data.enums;
 
 public enum RoleEnum {
-    CLIENT,MERCHANT,ADMIN,EMPLOYEE
+    CLIENT, MERCHANT, ADMIN, EMPLOYEE
 }

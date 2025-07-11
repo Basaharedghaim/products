@@ -1,4 +1,4 @@
-package com.events.products.business.controller;
+package com.events.products.controller;
 
 import com.events.products.business.service.SubCategoryService;
 import com.events.products.data.dto.SubCategoryDto;
@@ -15,7 +15,7 @@ public class SubCategoryController {
 
     private final SubCategoryService subCategoryService;
 
-    @PostMapping("/add-subcategory")
+    @PostMapping("/add")
     public ResponseEntity<SubCategoryDto> add(@RequestBody SubCategoryDto dto) {
         return ResponseEntity.ok(subCategoryService.addSubCategory(dto));
     }
@@ -39,5 +39,14 @@ public class SubCategoryController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         subCategoryService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{sub-category-id}/item/{item-id}")
+    public ResponseEntity<String> addItemToSubCategory(
+            @PathVariable(name = "sub-category-id") Long subCategoryId,
+            @PathVariable(name = "item-id") Long itemId) {
+
+        subCategoryService.addSubCategoryToStore(subCategoryId, itemId);
+        return ResponseEntity.ok("Item added to SubCategory successfully");
     }
 }

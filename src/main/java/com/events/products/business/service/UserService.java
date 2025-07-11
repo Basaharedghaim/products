@@ -50,10 +50,9 @@ public class UserService {
         return objectMapper.convertValue(savedEntity, UserDto.class);
     }
 
-
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-                throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException("User not found");
         }
         userRepository.deleteById(id);
     }
@@ -79,6 +78,6 @@ public class UserService {
             });
             return mainObjectNode;
         }
-        return updateNode;  // fallback
+        return updateNode;
     }
 }

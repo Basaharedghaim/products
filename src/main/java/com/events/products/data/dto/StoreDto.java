@@ -1,13 +1,11 @@
 package com.events.products.data.dto;
 
-import com.events.products.data.entity.CategoryEntity;
-import com.events.products.data.entity.SubCategoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -15,14 +13,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class StoreDto {
-    private String name;
     private Long id;
+    private String name;
     private String address;
     private double stars;
     private String storeImagePath;
     private String description;
-    private Set<CategoryEntity> categories;
-    private Set<SubCategoryEntity> subCategories ;
 
+    private Set<Long> categories;
+    private Set<Long> subCategories;
+
+    private String createdBy;
+    private String updatedBy;
+    private LocalDateTime updatedOn;
 }
-

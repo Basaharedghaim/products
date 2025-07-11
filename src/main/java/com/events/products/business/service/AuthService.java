@@ -18,7 +18,6 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
 
-
     public String login(String phoneNumber, String rawPassword) {
         UserEntity user = userRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -29,6 +28,7 @@ public class AuthService {
             throw new InvalidPasswordException("Invalid password");
         }
     }
+
     public UserEntity getUserFromToken(String token) {
         if (!jwtUtil.validateToken(token)) {
             throw new IllegalArgumentException("Invalid JWT token");

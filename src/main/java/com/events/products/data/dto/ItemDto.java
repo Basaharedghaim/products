@@ -5,16 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDto {
+public class ItemDto {
     private Long id;
     private String name;
     private String description;
     private float price;
-    private List<Long> categoryIds;
+    private List<Long> subCategories;
+    private String createdBy;
+    private String updatedBy;
+    private LocalDateTime updatedOn;
 }

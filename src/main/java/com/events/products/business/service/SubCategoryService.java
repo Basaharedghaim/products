@@ -1,67 +1,88 @@
 package com.events.products.business.service;
 
+import com.events.products.business.exception.ItemNotFoundException;
 import com.events.products.business.exception.StoreAlreadyExistsException;
 import com.events.products.business.exception.SubCategoryNotFoundException;
 import com.events.products.data.dto.SubCategoryDto;
+import com.events.products.data.entity.ItemEntity;
 import com.events.products.data.entity.SubCategoryEntity;
+import com.events.products.data.repository.ItemRepository;
 import com.events.products.data.repository.SubCategoryRepository;
-import com.events.products.utils.Mapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
 public class SubCategoryService {
 
-    private final SubCategoryRepository repository;
+    private final SubCategoryRepository subCategoryRepository;
+    private final ItemRepository itemRepository;
     private final ObjectMapper objectMapper;
 
     public SubCategoryDto addSubCategory(SubCategoryDto dto) {
-        validateSubCategoryNameDoesntExist(dto);
-        SubCategoryEntity entity = Mapper.mapSubCategoryDtoToEntity(dto);
-        SubCategoryEntity saved = repository.save(entity);
+        validateSubCategoryNameDoesNotExist(dto);
+        SubCategoryEntity entity = objectMapper.convertValue(dto, SubCategoryEntity.class);
+        SubCategoryEntity saved = subCategoryRepository.save(entity);
         return mapSubCategoryEntityToDto(saved);
     }
 
     public SubCategoryDto updateSubCategory(Long id, SubCategoryDto dto) {
-        SubCategoryEntity entity = repository.findById(id)
+        SubCategoryEntity entity = subCategoryRepository.findById(id)
                 .orElseThrow(() -> new SubCategoryNotFoundException("SubCategory not found with id: " + id));
 
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
 
-        SubCategoryEntity updated = repository.save(entity);
+        SubCategoryEntity updated = subCategoryRepository.save(entity);
         return mapSubCategoryEntityToDto(updated);
     }
 
     public List<SubCategoryDto> getAll() {
-        return repository.findAll().stream()
-                .map(this::mapSubCategoryEntityToDto)
-                .collect(Collectors.toList());
+        return subCategoryRepository.findAll().stream()
+                .map(i -> objectMapper.convertValue(i, SubCategoryDto.class))
+                .collect(toList());
     }
 
     public SubCategoryDto getById(Long id) {
-        SubCategoryEntity entity = repository.findById(id)
+        SubCategoryEntity entity = subCategoryRepository.findById(id)
                 .orElseThrow(() -> new SubCategoryNotFoundException("SubCategory not found with id: " + id));
         return mapSubCategoryEntityToDto(entity);
     }
-    public SubCategoryDto mapSubCategoryEntityToDto(SubCategoryEntity subCategoryEntity){
-        return objectMapper.convertValue(subCategoryEntity,SubCategoryDto.class);
-    }
+
 
     public void delete(Long id) {
-        if (!repository.existsById(id)) {
+        if (!subCategoryRepository.existsById(id)) {
             throw new SubCategoryNotFoundException("SubCategory not found with id: " + id);
         }
-        repository.deleteById(id);
+        subCategoryRepository.deleteById(id);
     }
-    private void validateSubCategoryNameDoesntExist(SubCategoryDto dto) {
-        if (repository.findByName(dto.getName()) != null) {
+
+    public void addSubCategoryToStore(Long subCategoryId, Long itemId) {
+        ItemEntity itemEntity = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ItemNotFoundException("Store Not Found"));
+
+        SubCategoryEntity subCategory = subCategoryRepository.findById(subCategoryId)
+                .orElseThrow(() -> new SubCategoryNotFoundException("Sub Category Not Found"));
+
+        subCategory.getItems().add(itemEntity);
+        subCategoryRepository.save(subCategory);
+    }
+
+
+    private SubCategoryDto mapSubCategoryEntityToDto(SubCategoryEntity subCategoryEntity) {
+        return SubCategoryDto.mapSubCategoryEntityToDto(subCategoryEntity);
+    }
+
+    private void validateSubCategoryNameDoesNotExist(SubCategoryDto dto) {
+        if (subCategoryRepository.findByName(dto.getName()) != null) {
             throw new StoreAlreadyExistsException("SubCategory already exists with name: " + dto.getName());
         }
     }
+
+
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/add")
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         UserDto createdUser = userService.addUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);

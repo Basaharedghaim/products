@@ -16,27 +16,27 @@ public class PackagesController {
 
     private final PackagesService packagesService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<PackagesDto> create(@RequestBody PackagesDto dto) {
         return new ResponseEntity<>(packagesService.addPackages(dto), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("get-all")
     public ResponseEntity<List<PackagesDto>> getAll() {
         return ResponseEntity.ok(packagesService.getPackages());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/by-id/{id}")
     public ResponseEntity<PackagesDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(packagesService.getPackageById(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<PackagesDto> update(@PathVariable Long id, @RequestBody PackagesDto dto) {
         return ResponseEntity.ok(packagesService.updatePackage(id, dto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         packagesService.deletePackage(id);
         return ResponseEntity.noContent().build();

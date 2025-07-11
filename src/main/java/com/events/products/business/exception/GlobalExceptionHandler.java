@@ -27,26 +27,32 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request);
     }
+
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<ErrorResponse> handleInvalidPassword(InvalidPasswordException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request);
     }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUSerNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler(StoreAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleStoreAlreadyExistsException(StoreAlreadyExistsException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.CONFLICT, request);
     }
+
     @ExceptionHandler(StoreNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleStoreNotFoundException(StoreNotFoundException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler(SubCategoryNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleSubCategoryNotFoundException(SubCategoryNotFoundException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler(SubCategoryAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleSubCategoryAlreadyExistsException(SubCategoryAlreadyExistsException ex, HttpServletRequest request) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
@@ -62,10 +68,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(message, HttpStatus.BAD_REQUEST, request);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponse> handleGeneralErrors(Exception ex, HttpServletRequest request) {
-//        return buildErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneralErrors(Exception ex, HttpServletRequest request) {
+        ex.printStackTrace(); // Optional: log the stack trace for debugging
+        return buildErrorResponse("Unexpected error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(String message, HttpStatus status, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(

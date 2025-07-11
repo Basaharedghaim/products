@@ -1,13 +1,22 @@
 package com.events.products.data.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+import java.time.LocalDateTime;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
+
 public class PackagesDto {
     private Long id;
     private String name;
     private String description;
+    private String createdBy;
+    private String updatedBy;
+    private LocalDateTime updatedOn;
 }

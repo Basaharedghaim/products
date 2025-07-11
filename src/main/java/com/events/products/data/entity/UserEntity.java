@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "USER_INFO")
@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -52,10 +53,16 @@ public class UserEntity {
     private String profilePicturePath;
 
     @Column(name = "UPDATED_ON")
-    private LocalDate updatedOn;
+    private LocalDateTime updatedOn;
+
+    @Column(name = "UPDATED_BY")
+    private String updatedBy;
 
     @Column(name = "CREATED_ON")
-    private LocalDate createdOn;
+    private LocalDateTime createdOn = LocalDateTime.now();
+
+    @Column(name = "CREATED_BY")
+    private String createdBy;
 
     @Column(name = "ROLE")
     private RoleEnum role;

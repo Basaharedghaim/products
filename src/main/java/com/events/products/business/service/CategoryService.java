@@ -7,16 +7,11 @@ import com.events.products.data.entity.CategoryEntity;
 import com.events.products.data.entity.StoreEntity;
 import com.events.products.data.repository.CategoryRepository;
 import com.events.products.data.repository.StoreRepository;
-import com.events.products.utils.Mapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.events.products.utils.Mapper.mapCategoryDtoToEntity;
-import static com.events.products.utils.Mapper.mapCategoryEntityToDto;
-
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +24,22 @@ public class CategoryService {
     public CategoryDto addCategory(CategoryDto categoryDto) {
         validateAddCategoryDto(categoryDto);
         validateCategoryNameNotExists(categoryDto, categoryRepository);
-        CategoryEntity entity = mapCategoryDtoToEntity(categoryDto);
+        CategoryEntity entity = objectMapper.convertValue(categoryDto, CategoryEntity.class);
         CategoryEntity saved = categoryRepository.save(entity);
         return mapCategoryEntityToDto(saved);
+    }
+
+    public CategoryDto addStoreToCategory(Long categoryId, Long storeId) {
+        CategoryEntity category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        StoreEntity store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException("Store not found"));
+
+        category.getStores().add(store);
+
+        CategoryEntity updatedCategory = categoryRepository.save(category);
+        return objectMapper.convertValue(updatedCategory, CategoryDto.class);
     }
 
     public void deleteCategory(Long id) {
@@ -54,9 +62,6 @@ public class CategoryService {
         return categoryRepository.findAll().stream()
                 .map(this::mapCategoryEntityToDto)
                 .toList();
-    }
-    private CategoryDto mapCategoryEntityToDto(CategoryEntity categoryEntity){
-        return objectMapper.convertValue(categoryEntity,CategoryDto.class);
     }
 
     public CategoryDto getCategoryById(Long id) {
@@ -83,36 +88,16 @@ public class CategoryService {
             throw new IllegalArgumentException("Category name is required");
         }
     }
-    private static void validateCategoryNameNotExists(CategoryDto dto, CategoryRepository repository) {
+
+    private void validateCategoryNameNotExists(CategoryDto dto, CategoryRepository repository) {
         if (repository.findByName(dto.getName()) != null) {
             throw new CategoryAlreadyExistsException("Category already exists with name: " + dto.getName());
         }
     }
 
-    public CategoryDto addStoreToCategory(Long categoryId, Long storeId) {
-        // 1. Fetch the category
-        CategoryEntity category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
-
-        // 2. Fetch the store
-        StoreEntity store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new RuntimeException("Store not found"));
-
-        // 3. Add the store to the category's set
-        category.getStores().add(store);
-
-        // 4. Save the updated category
-        CategoryEntity updatedCategory = categoryRepository.save(category);
-
-        // 5. Convert to DTO and return
-        return CategoryDto.builder()
-                .id(updatedCategory.getId())
-                .name(updatedCategory.getName())
-                .description(updatedCategory.getDescription())
-                .stores(updatedCategory.getStores())
-                .build();
+    private CategoryDto mapCategoryEntityToDto(CategoryEntity categoryEntity) {
+        return objectMapper.convertValue(categoryEntity, CategoryDto.class);
     }
-
 }
 
 
